@@ -1,5 +1,10 @@
-var builder = WebApplication.CreateBuilder(args);
+using Keychain.Application;
+using Keychain.Application.Services.ShareableSecret;
+using Keychain.Infrastructure;
 
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddApplication();
+builder.Services.AddInfrastructure();
 // Add services to the container.
 
 builder.Services.AddControllers();
