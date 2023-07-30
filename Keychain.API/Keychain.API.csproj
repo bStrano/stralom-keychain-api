@@ -9,7 +9,13 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Mapster" Version="7.3.0" />
+        <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.7" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0-preview.6.23329.4">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
@@ -19,21 +25,25 @@
       </Content>
       <Content Remove="Constants\LifeTimeSecretEnum\**" />
       <Content Remove="Repositories\**" />
+      <Content Remove="Controllers\ShareableSecret\**" />
     </ItemGroup>
 
     <ItemGroup>
       <Compile Remove="Constants\LifeTimeSecretEnum\**" />
       <Compile Remove="Repositories\**" />
+      <Compile Remove="Controllers\ShareableSecret\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="Constants\LifeTimeSecretEnum\**" />
       <EmbeddedResource Remove="Repositories\**" />
+      <EmbeddedResource Remove="Controllers\ShareableSecret\**" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="Constants\LifeTimeSecretEnum\**" />
       <None Remove="Repositories\**" />
+      <None Remove="Controllers\ShareableSecret\**" />
     </ItemGroup>
 
     <ItemGroup>
@@ -43,7 +53,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Common\" />
+      <Folder Include="Middleware\" />
     </ItemGroup>
 
 </Project>

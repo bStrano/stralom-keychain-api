@@ -1,5 +1,8 @@
-using Keychain.Application.Services.ShareableSecret;
+using System.Reflection;
+using FluentValidation;
+using Keychain.Application.Common.Behaviors;
 using Microsoft.Extensions.DependencyInjection;
+using MediatR;
 
 namespace Keychain.Application;
 
@@ -7,7 +10,13 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        services.AddScoped<IShareableSecretService, ShareableSecretService>();
+        services.AddMediatR(cfg=>cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
+        services.AddScoped(
+            typeof(IPipelineBehavior<,>),
+            typeof(ValidationBehavior<,>));
+
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         return services;
     }

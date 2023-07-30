@@ -1,7 +1,8 @@
 namespace Keychain.Contracts.Responses.ShareableSecret;
 
-public record RegisterTemporarySecretResponse(
-    Guid Id,
+public record DetailSecretResponse
+(
+    Guid Id, 
     DateTime ExpirationDate,
     int ViewCount,
     string Secret,

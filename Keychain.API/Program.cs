@@ -1,16 +1,12 @@
+using Keychain_API;
 using Keychain.Application;
-using Keychain.Application.Services.ShareableSecret;
 using Keychain.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddApplication();
-builder.Services.AddInfrastructure();
-// Add services to the container.
+builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddPresentation();
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
