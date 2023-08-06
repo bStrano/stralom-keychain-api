@@ -6,13 +6,14 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>Keychain_API</RootNamespace>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>5f5fb01a-06d8-4dc9-9348-b916121a3abf</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Mapster" Version="7.3.0" />
         <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.7" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.0-preview.6.23329.4">
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.9" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.9">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

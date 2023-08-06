@@ -1,18 +1,27 @@
 using Keychain.Application.Common.Interfaces.Persistence;
 using Keychain.Domain.ShareableSecret;
+using Microsoft.EntityFrameworkCore;
 
 namespace Keychain.Infrastructure.Persistence.Repositories;
 
 public class ShareableSecretRepository : IShareableSecretRepository
 {
+    private readonly KeychainDbContext _dbContext;
 
-    public ShareableSecret Detail(Guid id)
+    public ShareableSecretRepository(KeychainDbContext dbContext)
     {
-        throw new NotImplementedException();
+        _dbContext = dbContext;
     }
 
-    public void Register(ShareableSecret shareableSecret)
+
+    public async Task<ShareableSecret?> Detail(Guid id)
     {
-        throw new NotImplementedException();
+        return await _dbContext.ShareableSecrets.FirstOrDefaultAsync( u => u.Id == id);
+    }
+
+    public async Task Register(ShareableSecret shareableSecret)
+    {
+        await _dbContext.AddAsync(shareableSecret);
+        await _dbContext.SaveChangesAsync();
     }
 }

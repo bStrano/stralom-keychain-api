@@ -2,9 +2,9 @@ namespace Keychain.Contracts.Responses.ShareableSecret;
 
 public record DetailSecretResponse
 (
-    Guid Id, 
+    Guid Id,
     DateTime ExpirationDate,
-    int ViewCount,
+    int MaxViewCount,
     string Secret,
     string? Password
 );

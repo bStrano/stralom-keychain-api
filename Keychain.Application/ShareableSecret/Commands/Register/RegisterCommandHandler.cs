@@ -21,12 +21,14 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<R
         var shareableSecret = new Domain.ShareableSecret.ShareableSecret
         {
             Id = Guid.NewGuid(),
+            Description = "tESTE",
             Secret = command.Secret,
             Password = command.Password,
-            ExpirationDate = DateTime.Now,
-            ViewCount = command.ViewCount,
+            ExpirationDate = DateTime.UtcNow,
+            MaxViewCount = command.ViewCount,
+            CurrentViewCount = 0,
         };
-        this._repository.Register(shareableSecret);
+        await this._repository.Register(shareableSecret);
         return new RegisterTemporarySecretResponse(shareableSecret.Id, shareableSecret.ExpirationDate, command.ViewCount, command.Secret, command.Password );
     }
 }

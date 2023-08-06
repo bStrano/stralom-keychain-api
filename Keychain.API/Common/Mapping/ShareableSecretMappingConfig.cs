@@ -9,7 +9,7 @@ public class ShareableSecretMappingConfig : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {
-        config.NewConfig(typeof(RegisterTemporarySecretResponse), typeof(RegisterCommand));
-        config.NewConfig(typeof(DetailSecretResponse), typeof(DetailQuery));
+        config.NewConfig<RegisterTemporarySecretResponse,RegisterCommand>();
+        config.NewConfig<string, DetailQuery>();
     }
 }

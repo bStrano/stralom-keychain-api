@@ -31,13 +31,13 @@ public class ShareableSecretController: ApiController
             responseResult => Ok(_mapper.Map<DetailSecretResponse>(responseResult)),
             errors => Problem(errors));
     }
-    
-    
-    [HttpGet("detail/{id}")]
+
+
+    [HttpGet("detail/{id:guid}")]
     public async Task<IActionResult> GetDetail(Guid id)
     {
-        var command = _mapper.Map<DetailQuery>(id);
-        var commandResponse = await _mediator.Send(command);
+        var query = new DetailQuery(id);
+        var commandResponse = await _mediator.Send(query);
         return commandResponse.Match(
             responseResult => Ok(_mapper.Map<DetailSecretResponse>(responseResult)),
             errors => Problem(errors));

@@ -19,13 +19,14 @@ public class DetailQueryHandler : IRequestHandler<DetailQuery, ErrorOr<DetailSec
     public async Task<ErrorOr<DetailSecretResponse>> Handle(DetailQuery command, CancellationToken cancellationToken)
     {
         await Task.CompletedTask;
-        
-        var response = this._repository.Detail(command.Id);
 
-        if (response is not Domain.ShareableSecret.ShareableSecret secret)
+        var response = await this._repository.Detail(command.Id);
+
+        if (response == null)
         {
             return Errors.ShareableSecret.NotFound(command.Id);
         }
-        return new DetailSecretResponse(response.Id, response.ExpirationDate, response.ViewCount, response.Secret, response.Password);
+
+        return new DetailSecretResponse(response.Id, response.ExpirationDate, response.MaxViewCount, response.Secret, response.Password);
     }
 }

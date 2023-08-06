@@ -1,0 +1,25 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.4"
+services:
+  api:
+    build:
+      context: "/Users/brunostrano/Documents/Projects/Keychain/Keychain-API/Keychain.API"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net7.0/Keychain.API.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      NUGET_PACKAGES: "/Users/brunostrano/.nuget/packages"
+      NUGET_FALLBACK_PACKAGES: "/Users/brunostrano/.nuget/packages"
+    image: "keychain-api:dev"
+    ports: []
+    volumes:
+    - "/Users/brunostrano/.microsoft/usersecrets:/root/.microsoft/usersecrets"
+    - "/Users/brunostrano/.nuget/packages:/root/.nuget/fallbackpackages"
+    - "/Users/brunostrano/Documents/Projects/Keychain/Keychain-API/Keychain.API:/app:rw"
+    - "/Users/brunostrano/Documents/Projects/Keychain/Keychain-API:/src:rw"
+    working_dir: "/app"
