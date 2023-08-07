@@ -50,14 +50,16 @@ public class EncryptionHelper : IEncryptionHelper
         return Convert.ToBase64String(encrypted);
     }
 
-    public string Decrypt(string cipherText)
+    public string Decrypt(string cipherText, string? customKey = null)
     {
         var cipherTextBytes = Convert.FromBase64String(cipherText);
         string decryptedText;
         using (Aes aesAlg = Aes.Create())
         {
-            aesAlg.Key = _key;
+            aesAlg.Key = customKey is not null ? DeriveAes256Key(customKey) : _key;
             aesAlg.IV = _iv;
+            aesAlg.Mode = CipherMode.CBC;
+
 
             ICryptoTransform decryptor = aesAlg.CreateDecryptor(aesAlg.Key, aesAlg.IV);
 
@@ -78,14 +80,12 @@ public class EncryptionHelper : IEncryptionHelper
     byte[] DeriveAes256Key(string password)
     {
         byte[] salt = new byte[16];
-        using (var rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(salt);
-        }
+        // using (var rng = RandomNumberGenerator.Create())
+        // {
+        //     rng.GetBytes(salt);
+        // }
 
-        int iterations = 10000;
-
-        using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations, HashAlgorithmName.SHA256))
+        using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 1, HashAlgorithmName.SHA256))
         {
             return pbkdf2.GetBytes(32); // 256-bit key (32 bytes)
         }

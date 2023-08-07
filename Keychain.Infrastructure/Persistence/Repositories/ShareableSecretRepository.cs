@@ -24,4 +24,10 @@ public class ShareableSecretRepository : IShareableSecretRepository
         await _dbContext.AddAsync(shareableSecret);
         await _dbContext.SaveChangesAsync();
     }
+
+    public async Task Update(ShareableSecret shareableSecret)
+    {
+        _dbContext.Update(shareableSecret);
+        await _dbContext.SaveChangesAsync();
+    }
 }

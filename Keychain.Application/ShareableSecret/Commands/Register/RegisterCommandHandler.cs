@@ -19,8 +19,6 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<R
 
     public async Task<ErrorOr<RegisterTemporarySecretResponse>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
-
         var encryptedSecret = _encryptionHelper.Encrypt(command.Secret);
         if(command.Password != null)
         {
@@ -33,6 +31,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<R
             ExpirationDate = DateTime.UtcNow,
             MaxViewCount = command.ViewCount,
             CurrentViewCount = 0,
+            HasPassword = command.Password != null,
         };
         await _repository.Register(shareableSecret);
         return new RegisterTemporarySecretResponse(shareableSecret.Id, shareableSecret.ExpirationDate, command.ViewCount, command.Secret, command.Password );

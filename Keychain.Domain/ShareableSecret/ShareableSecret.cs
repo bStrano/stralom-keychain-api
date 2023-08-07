@@ -11,9 +11,34 @@ public sealed class ShareableSecret
 
     public int CurrentViewCount { get; set; } = 0;
 
+    public bool HasPassword { get; set; } = false;
+
+    public DateTime? BurnedAt { get; set; }
+
+
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public DateTime? UpdatedAt { get; set; } = null;
+
+    public void Visualize()
+    {
+        CurrentViewCount++;
+        if (CurrentViewCount >= MaxViewCount)
+        {
+            Burn();
+        }
+    }
+
+    public void Burn()
+    {
+        Secret = "🔥 Burned 🔥";
+        BurnedAt = DateTime.UtcNow;
+    }
+
+    public int RemainingViews()
+    {
+        return MaxViewCount - CurrentViewCount;
+    }
 
     public ShareableSecret()
     {

@@ -1,7 +1,10 @@
 namespace Keychain.Application.Common.Interfaces.Persistence;
+using Domain.ShareableSecret;
 
 public interface IShareableSecretRepository
 {
-    Task<Domain.ShareableSecret.ShareableSecret?> Detail(Guid id);
-    Task Register(Domain.ShareableSecret.ShareableSecret shareableSecret);
+    Task<ShareableSecret?> Detail(Guid id);
+    Task Register(ShareableSecret shareableSecret);
+    Task Update(ShareableSecret shareableSecret);
+
 }

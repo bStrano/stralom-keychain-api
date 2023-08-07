@@ -20,7 +20,8 @@ public class KeychainDbContext : DbContext
     {
         modelBuilder
             .Ignore<List<IDomainEvent>>()
-            .ApplyConfigurationsFromAssembly(typeof(KeychainDbContext).Assembly);
+            .ApplyConfigurationsFromAssembly(typeof(KeychainDbContext).Assembly)
+            .Entity<ShareableSecret>().HasQueryFilter(p => !p.BurnedAt.HasValue);
 
         base.OnModelCreating(modelBuilder);
     }

@@ -33,10 +33,10 @@ public class ShareableSecretController: ApiController
     }
 
 
-    [HttpGet("detail/{id:guid}")]
-    public async Task<IActionResult> GetDetail(Guid id)
+    [HttpPost("detail/{id:guid}")]
+    public async Task<IActionResult> GetDetail(Guid id, string? password)
     {
-        var query = new DetailQuery(id);
+        var query = new DetailQuery(id, password);
         var commandResponse = await _mediator.Send(query);
         return commandResponse.Match(
             responseResult => Ok(_mapper.Map<DetailSecretResponse>(responseResult)),

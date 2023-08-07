@@ -3,6 +3,7 @@ using System;
 using Keychain.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Keychain.Infrastructure.Migrations
 {
     [DbContext(typeof(KeychainDbContext))]
-    partial class KeychainDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230807013910_AddColumnHasPasswordShareableSecrets")]
+    partial class AddColumnHasPasswordShareableSecrets
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,9 +29,6 @@ namespace Keychain.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime?>("BurnedAt")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
