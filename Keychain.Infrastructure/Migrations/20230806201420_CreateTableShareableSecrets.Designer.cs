@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Keychain.Infrastructure.Migrations
 {
     [DbContext(typeof(KeychainDbContext))]
-    [Migration("20230806032906_CreateTableShareableSecrets")]
+    [Migration("20230806201420_CreateTableShareableSecrets")]
     partial class CreateTableShareableSecrets
     {
         /// <inheritdoc />
@@ -37,7 +37,6 @@ namespace Keychain.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
@@ -46,10 +45,6 @@ namespace Keychain.Infrastructure.Migrations
 
                     b.Property<int>("MaxViewCount")
                         .HasColumnType("integer");
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.Property<string>("Secret")
                         .IsRequired()

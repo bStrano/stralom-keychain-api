@@ -16,10 +16,9 @@ namespace Keychain.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
                     ExpirationDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Secret = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: false),
                     MaxViewCount = table.Column<int>(type: "integer", nullable: false),
                     CurrentViewCount = table.Column<int>(type: "integer", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),

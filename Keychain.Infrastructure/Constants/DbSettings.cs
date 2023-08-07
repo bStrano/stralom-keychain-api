@@ -1,4 +1,4 @@
-namespace Keychain.Infrastructure.Database;
+namespace Keychain.Infrastructure.Constants;
 
 public class DbSettings
 {

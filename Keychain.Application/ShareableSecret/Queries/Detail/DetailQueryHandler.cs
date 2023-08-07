@@ -27,6 +27,6 @@ public class DetailQueryHandler : IRequestHandler<DetailQuery, ErrorOr<DetailSec
             return Errors.ShareableSecret.NotFound(command.Id);
         }
 
-        return new DetailSecretResponse(response.Id, response.ExpirationDate, response.MaxViewCount, response.Secret, response.Password);
+        return new DetailSecretResponse(response.Id, response.ExpirationDate, response.MaxViewCount, response.Secret);
     }
 }
