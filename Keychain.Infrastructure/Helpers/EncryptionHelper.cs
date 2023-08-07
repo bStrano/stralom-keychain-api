@@ -1,4 +1,5 @@
 using Keychain.Application.Common.Interfaces.Helpers;
+using Keychain.Contracts.Responses.Encryption;
 using Keychain.Infrastructure.Constants;
 using Microsoft.Extensions.Options;
 
@@ -11,24 +12,24 @@ using System.Text;
 public class EncryptionHelper : IEncryptionHelper
 {
     private readonly byte[] _key;
-    private readonly byte[] _iv;
 
     public EncryptionHelper(IOptions<EncryptionSettings> encryptionOptions)
     {
         var encryptionSettings = encryptionOptions.Value;
         _key = Encoding.UTF8.GetBytes(encryptionSettings.KEY);
-        _iv = Encoding.UTF8.GetBytes(encryptionSettings.IV);
     }
 
 
-    public string Encrypt(string plainText, string? customKey = null)
+    public EncryptionResponse Encrypt(string plainText, string? customKey = null)
     {
         byte[] encrypted;
 
+        byte[] Iv;
         using (Aes aesAlg = Aes.Create())
         {
-            aesAlg.Key = customKey is not null ? DeriveAes256Key(customKey) : _key;
-            aesAlg.IV = _iv;
+            aesAlg.Key = customKey is not null ? DeriveAes256Key(customKey + _key) : _key;
+            aesAlg.GenerateIV();
+            Iv = aesAlg.IV;
             aesAlg.Mode = CipherMode.CBC;
 
             ICryptoTransform encryptor = aesAlg.CreateEncryptor(aesAlg.Key, aesAlg.IV);
@@ -47,17 +48,17 @@ public class EncryptionHelper : IEncryptionHelper
             }
         }
 
-        return Convert.ToBase64String(encrypted);
+        return new EncryptionResponse(Convert.ToBase64String(encrypted), Iv);
     }
 
-    public string Decrypt(string cipherText, string? customKey = null)
+    public string Decrypt(string cipherText, byte[] iv, string? customKey = null)
     {
         var cipherTextBytes = Convert.FromBase64String(cipherText);
         string decryptedText;
         using (Aes aesAlg = Aes.Create())
         {
-            aesAlg.Key = customKey is not null ? DeriveAes256Key(customKey) : _key;
-            aesAlg.IV = _iv;
+            aesAlg.Key = customKey is not null ? DeriveAes256Key(customKey + _key) : _key;
+            aesAlg.IV = iv;
             aesAlg.Mode = CipherMode.CBC;
 
 
@@ -90,5 +91,6 @@ public class EncryptionHelper : IEncryptionHelper
             return pbkdf2.GetBytes(32); // 256-bit key (32 bytes)
         }
     }
+
 
 }

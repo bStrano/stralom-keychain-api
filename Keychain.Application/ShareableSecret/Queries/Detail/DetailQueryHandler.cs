@@ -20,7 +20,7 @@ public class DetailQueryHandler : IRequestHandler<DetailQuery, ErrorOr<DetailSec
 
     public async Task<ErrorOr<DetailSecretResponse>> Handle(DetailQuery command, CancellationToken cancellationToken)
     {
-        var response = await this._repository.Detail(command.Id);
+        var response = await _repository.Detail(command.Id);
 
 
         if (response == null)
@@ -39,11 +39,11 @@ public class DetailQueryHandler : IRequestHandler<DetailQuery, ErrorOr<DetailSec
             if (response.HasPassword && command.Password != null)
             {
                 decryptedSecret =
-                    _encryptionHelper.Decrypt(_encryptionHelper.Decrypt(response.Secret, command.Password));
+                    _encryptionHelper.Decrypt(response.Secret, response.Iv, command.Password);
             }
             else
             {
-                decryptedSecret = _encryptionHelper.Decrypt(response.Secret);
+                decryptedSecret = _encryptionHelper.Decrypt(response.Secret, response.Iv);
             }
         }
         catch (Exception)
@@ -57,4 +57,6 @@ public class DetailQueryHandler : IRequestHandler<DetailQuery, ErrorOr<DetailSec
         return new DetailSecretResponse(response.Id, response.ExpirationDate, response.MaxViewCount,
             response.RemainingViews(), decryptedSecret);
     }
+
+
 }

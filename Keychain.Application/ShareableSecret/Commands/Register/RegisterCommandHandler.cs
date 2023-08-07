@@ -3,6 +3,7 @@ using Keychain.Contracts.Responses.ShareableSecret;
 using MediatR;
 using ErrorOr;
 using Keychain.Application.Common.Interfaces.Helpers;
+using Keychain.Contracts.Responses.Encryption;
 
 namespace Keychain.Application.ShareableSecret.Commands.Register;
 
@@ -19,18 +20,15 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<R
 
     public async Task<ErrorOr<RegisterTemporarySecretResponse>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
-        var encryptedSecret = _encryptionHelper.Encrypt(command.Secret);
-        if(command.Password != null)
-        {
-            encryptedSecret = _encryptionHelper.Encrypt(encryptedSecret, command.Password);
-        }
+        var encryptedSecret = command.Password != null ? _encryptionHelper.Encrypt(command.Secret, command.Password) : _encryptionHelper.Encrypt(command.Secret);
         var shareableSecret = new Domain.ShareableSecret.ShareableSecret
         {
             Id = Guid.NewGuid(),
-            Secret = encryptedSecret,
+            Secret = encryptedSecret.EncryptedValue,
             ExpirationDate = DateTime.UtcNow,
             MaxViewCount = command.ViewCount,
             CurrentViewCount = 0,
+            Iv = encryptedSecret.Iv,
             HasPassword = command.Password != null,
         };
         await _repository.Register(shareableSecret);

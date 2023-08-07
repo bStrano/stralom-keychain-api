@@ -21,6 +21,7 @@ public class ShareableSecretConfiguration : IEntityTypeConfiguration<ShareableSe
         builder.Property(x => x.MaxViewCount).IsRequired();
         builder.Property(x => x.CurrentViewCount).IsRequired();
         builder.Property(x => x.ExpirationDate).IsRequired();
+        builder.Property(x => x.Iv).IsRequired();
         builder.Property(x => x.CreatedAt).IsRequired();
         builder.Property(x => x.UpdatedAt);
     }

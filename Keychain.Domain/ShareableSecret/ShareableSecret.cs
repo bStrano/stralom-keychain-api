@@ -13,6 +13,8 @@ public sealed class ShareableSecret
 
     public bool HasPassword { get; set; } = false;
 
+    public byte[] Iv { get; set; }
+
     public DateTime? BurnedAt { get; set; }
 
 
