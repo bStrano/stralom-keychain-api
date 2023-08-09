@@ -10,7 +10,7 @@ using ErrorOr;
 namespace Keychain_API.Controllers;
 
 [ApiController]
-[Route("secrets")]
+[Route("shareable-secrets")]
 public class ShareableSecretController: ApiController
 {
     private readonly ISender _mediator;
@@ -28,7 +28,7 @@ public class ShareableSecretController: ApiController
         var command = _mapper.Map<RegisterCommand>(registerTemporarySecretDto);
         var commandResponse = await _mediator.Send(command);
         return commandResponse.Match(
-            responseResult => Ok(_mapper.Map<DetailSecretResponse>(responseResult)),
+            responseResult => Ok(responseResult),
             errors => Problem(errors));
     }
 

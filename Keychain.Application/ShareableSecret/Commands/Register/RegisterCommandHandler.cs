@@ -3,7 +3,6 @@ using Keychain.Contracts.Responses.ShareableSecret;
 using MediatR;
 using ErrorOr;
 using Keychain.Application.Common.Interfaces.Helpers;
-using Keychain.Contracts.Responses.Encryption;
 
 namespace Keychain.Application.ShareableSecret.Commands.Register;
 
@@ -26,12 +25,12 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<R
             Id = Guid.NewGuid(),
             Secret = encryptedSecret.EncryptedValue,
             ExpirationDate = DateTime.UtcNow,
-            MaxViewCount = command.ViewCount,
+            MaxViewCount = command.MaxViewCount,
             CurrentViewCount = 0,
             Iv = encryptedSecret.Iv,
             HasPassword = command.Password != null,
         };
         await _repository.Register(shareableSecret);
-        return new RegisterTemporarySecretResponse(shareableSecret.Id, shareableSecret.ExpirationDate, command.ViewCount, command.Secret, command.Password );
+        return new RegisterTemporarySecretResponse(shareableSecret.Id, shareableSecret.ExpirationDate, 0, command.MaxViewCount,command.Secret, command.Password );
     }
 }
