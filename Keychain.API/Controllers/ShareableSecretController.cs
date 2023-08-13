@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ErrorOr;
 using Keychain.Application.ShareableSecret.Commands.Visualize;
+using Keychain.Application.ShareableSecret.Queries.BaseInfo;
 
 namespace Keychain_API.Controllers;
 
@@ -40,6 +41,16 @@ public class ShareableSecretController: ApiController
         var commandResponse = await _mediator.Send(query);
         return commandResponse.Match(
             responseResult => Ok(_mapper.Map<VisualizeSecretResponse>(responseResult)),
+            errors => Problem(errors));
+    }
+
+    [HttpGet("metadata/{id:guid}")]
+    public async Task<IActionResult> GetBaseInfo(Guid id)
+    {
+        var query = new BaseInfoQuery(id);
+        var commandResponse = await _mediator.Send(query);
+        return commandResponse.Match(
+            responseResult => Ok(_mapper.Map<BaseInfoSecretResponse>(responseResult)),
             errors => Problem(errors));
     }
 }
