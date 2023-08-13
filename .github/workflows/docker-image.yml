@@ -20,7 +20,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         context: .
-        file: ./Keychain.API/Dockerfile
+        file: ./Dockerfile
         push: true
         tags: blstrano/stralom-keychain-api:latest
         build-args: |
