@@ -9,16 +9,35 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddPresentation();
 
-builder.Services.AddCors(options =>
+
+
+if (builder.Environment.IsProduction())
 {
-    options.AddPolicy(name: myAllowSpecificOrigins,
-        policy =>
-        {
-            policy.WithOrigins("https://*.stralom.com")
-                .AllowAnyHeader()
-                .AllowAnyMethod();
-        });
-});
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: myAllowSpecificOrigins,
+            policy =>
+            {
+                policy.WithOrigins("https://*.stralom.com", "http://localhost:61894")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+    });
+}
+else
+{
+    builder.Services.AddCors(options =>
+    {
+        options.AddPolicy(name: myAllowSpecificOrigins,
+            policy =>
+            {
+                policy.AllowAnyOrigin()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+    });
+}
+
 
 
 var app = builder.Build();
