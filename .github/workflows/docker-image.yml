@@ -23,6 +23,10 @@ jobs:
         file: ./Keychain.API/Dockerfile
         push: true
         tags: blstrano/stralom-keychain-api:latest
+        build-args: |
+          CONNECTION_STRING=${{ secrets.CONNECTION_STRING }}
+          KEY=${{ secrets.KEY }}
+          IV=${{ secrets.IV }}
       env:
         DOCKER_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
         DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
