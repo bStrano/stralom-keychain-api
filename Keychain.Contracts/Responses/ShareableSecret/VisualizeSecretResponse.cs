@@ -1,10 +1,11 @@
 namespace Keychain.Contracts.Responses.ShareableSecret;
 
-public record DetailSecretResponse
+public record VisualizeSecretResponse
 (
     Guid Id,
     DateTime ExpirationDate,
     int MaxViewCount,
     int RemainingViews,
-    string Secret
+    string Secret,
+    bool HasPassword
 );

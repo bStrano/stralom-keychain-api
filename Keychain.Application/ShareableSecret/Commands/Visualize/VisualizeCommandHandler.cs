@@ -1,24 +1,24 @@
-using Keychain.Application.Common.Interfaces.Persistence;
-using Keychain.Contracts.Responses.ShareableSecret;
 using ErrorOr;
 using Keychain.Application.Common.Interfaces.Helpers;
+using Keychain.Application.Common.Interfaces.Persistence;
+using Keychain.Contracts.Responses.ShareableSecret;
 using Keychain.Domain.Common.DomainErrors;
 using MediatR;
 
-namespace Keychain.Application.ShareableSecret.Queries.Detail;
+namespace Keychain.Application.ShareableSecret.Commands.Visualize;
 
-public class DetailQueryHandler : IRequestHandler<DetailQuery, ErrorOr<DetailSecretResponse>>
+public class VisualizeCommandHandler : IRequestHandler<VisualizeCommand, ErrorOr<VisualizeSecretResponse>>
 {
     private readonly IShareableSecretRepository _repository;
     private readonly IEncryptionHelper _encryptionHelper;
 
-    public DetailQueryHandler(IShareableSecretRepository repository, IEncryptionHelper encryptionHelper)
+    public VisualizeCommandHandler(IShareableSecretRepository repository, IEncryptionHelper encryptionHelper)
     {
         _repository = repository;
         _encryptionHelper = encryptionHelper;
     }
 
-    public async Task<ErrorOr<DetailSecretResponse>> Handle(DetailQuery command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<VisualizeSecretResponse>> Handle(VisualizeCommand command, CancellationToken cancellationToken)
     {
         var response = await _repository.Detail(command.Id);
 
@@ -54,8 +54,8 @@ public class DetailQueryHandler : IRequestHandler<DetailQuery, ErrorOr<DetailSec
 
         response.Visualize();
         await _repository.Update(response);
-        return new DetailSecretResponse(response.Id, response.ExpirationDate, response.MaxViewCount,
-            response.RemainingViews(), decryptedSecret);
+        return new VisualizeSecretResponse(response.Id, response.ExpirationDate, response.MaxViewCount,
+            response.RemainingViews(), decryptedSecret, response.HasPassword);
     }
 
 

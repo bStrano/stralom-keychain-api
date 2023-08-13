@@ -1,11 +1,11 @@
 using Keychain.Application.ShareableSecret.Commands.Register;
-using Keychain.Application.ShareableSecret.Queries.Detail;
 using Keychain.Contracts.DTOs.ShareableSecret;
 using Keychain.Contracts.Responses.ShareableSecret;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using ErrorOr;
+using Keychain.Application.ShareableSecret.Commands.Visualize;
 
 namespace Keychain_API.Controllers;
 
@@ -33,13 +33,13 @@ public class ShareableSecretController: ApiController
     }
 
 
-    [HttpPost("detail/{id:guid}")]
+    [HttpPost("visualize/{id:guid}")]
     public async Task<IActionResult> GetDetail(Guid id, string? password)
     {
-        var query = new DetailQuery(id, password);
+        var query = new VisualizeCommand(id, password);
         var commandResponse = await _mediator.Send(query);
         return commandResponse.Match(
-            responseResult => Ok(_mapper.Map<DetailSecretResponse>(responseResult)),
+            responseResult => Ok(_mapper.Map<VisualizeSecretResponse>(responseResult)),
             errors => Problem(errors));
     }
 }

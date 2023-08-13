@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="Interfaces\Persistence\" />
+    <Folder Include="ShareableSecret\Queries\Detail\" />
   </ItemGroup>
 
   <PropertyGroup>
