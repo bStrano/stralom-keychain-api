@@ -27,34 +27,34 @@
       <Content Remove="Constants\LifeTimeSecretEnum\**" />
       <Content Remove="Repositories\**" />
       <Content Remove="Controllers\ShareableSecret\**" />
+      <Content Remove="Middleware\**" />
     </ItemGroup>
 
     <ItemGroup>
       <Compile Remove="Constants\LifeTimeSecretEnum\**" />
       <Compile Remove="Repositories\**" />
       <Compile Remove="Controllers\ShareableSecret\**" />
+      <Compile Remove="Middleware\**" />
     </ItemGroup>
 
     <ItemGroup>
       <EmbeddedResource Remove="Constants\LifeTimeSecretEnum\**" />
       <EmbeddedResource Remove="Repositories\**" />
       <EmbeddedResource Remove="Controllers\ShareableSecret\**" />
+      <EmbeddedResource Remove="Middleware\**" />
     </ItemGroup>
 
     <ItemGroup>
       <None Remove="Constants\LifeTimeSecretEnum\**" />
       <None Remove="Repositories\**" />
       <None Remove="Controllers\ShareableSecret\**" />
+      <None Remove="Middleware\**" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Keychain.Contracts\Keychain.Contracts.csproj" />
       <ProjectReference Include="..\Keychain.Application\Keychain.Application.csproj" />
       <ProjectReference Include="..\Keychain.Infrastructure\Keychain.Infrastructure.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Middleware\" />
     </ItemGroup>
 
 </Project>

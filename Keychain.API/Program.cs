@@ -1,6 +1,8 @@
 using Keychain_API;
 using Keychain.Application;
 using Keychain.Infrastructure;
+using Microsoft.OpenApi.Models;
+
 const string myAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 
@@ -18,7 +20,7 @@ if (builder.Environment.IsProduction())
         options.AddPolicy(name: myAllowSpecificOrigins,
             policy =>
             {
-                policy.WithOrigins("https://*.stralom.com", "http://localhost:61894")
+                policy.WithOrigins("https://*.stralom.com")
                     .AllowAnyHeader()
                     .AllowAnyMethod();
             });
@@ -39,6 +41,35 @@ else
 }
 
 
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Stralom Keychain", Version = "v1" });
+
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "JWT Authorization header using the Bearer scheme."
+
+    });
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
 
 var app = builder.Build();
 
@@ -53,7 +84,7 @@ app.UseExceptionHandler("/error");
 app.UseHttpsRedirection();
 app.UseRouting();
 app.UseCors(myAllowSpecificOrigins);
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

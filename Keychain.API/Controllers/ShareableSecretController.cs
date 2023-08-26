@@ -4,13 +4,14 @@ using Keychain.Contracts.Responses.ShareableSecret;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using ErrorOr;
 using Keychain.Application.ShareableSecret.Commands.Visualize;
 using Keychain.Application.ShareableSecret.Queries.BaseInfo;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Keychain_API.Controllers;
 
 [ApiController]
+[AllowAnonymous]
 [Route("shareable-secrets")]
 public class ShareableSecretController: ApiController
 {
