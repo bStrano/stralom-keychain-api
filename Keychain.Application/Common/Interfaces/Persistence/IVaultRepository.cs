@@ -1,7 +1,8 @@
-namespace Keychain.Application.Common.Interfaces.Persistence;
-using Domain.Secret;
+using Keychain.Domain.Vault;
 
-public interface ISecretRepository
+namespace Keychain.Application.Common.Interfaces.Persistence;
+
+public interface IVaultRepository
 {
     Task Register(Secret secret);
 }

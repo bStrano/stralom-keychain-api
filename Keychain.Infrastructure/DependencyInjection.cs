@@ -1,4 +1,3 @@
-using System.Diagnostics;
 using System.Text;
 using Keychain.Application.Common.Interfaces.Helpers;
 using Keychain.Application.Common.Interfaces.Persistence;
@@ -21,7 +20,6 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configurationManager)
     {
         services.Configure<EncryptionSettings>(configurationManager.GetSection(nameof(EncryptionSettings)));
-        services.Configure<JwtSettings>(configurationManager.GetSection(nameof(JwtSettings)));
         services.AddPersistance(configurationManager);
         services.AddAuth(configurationManager);
         services.AddScoped<IEncryptionHelper, EncryptionHelper>();
@@ -41,7 +39,7 @@ public static class DependencyInjection
         services.Configure<DbSettings>(configurationManager.GetSection(nameof(DbSettings)));
         services.AddDbContext<KeychainDbContext>(options => options.UseNpgsql(connectionString));
         services.AddScoped<IShareableSecretRepository, ShareableSecretRepository>();
-        services.AddScoped<ISecretRepository, SecretRepository>();
+        services.AddScoped<IVaultRepository, VaultRepository>();
         return services;
     }
 
@@ -56,7 +54,7 @@ public static class DependencyInjection
 
         services.AddSingleton(Options.Create(jwtSettings));
 
-        services.AddAuthentication(defaultScheme: JwtBearerDefaults.AuthenticationScheme)
+        services.AddAuthentication( defaultScheme: JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidateIssuer = true,
