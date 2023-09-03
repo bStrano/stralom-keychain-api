@@ -8,10 +8,10 @@ public class SecretConfiguration : IEntityTypeConfiguration<Secret>
 {
     public void Configure(EntityTypeBuilder<Secret> builder)
     {
-        ConfigureShareableSecretTable(builder);
+        ConfigureSecretTable(builder);
     }
 
-    private void ConfigureShareableSecretTable(EntityTypeBuilder<Secret> builder)
+    private void ConfigureSecretTable(EntityTypeBuilder<Secret> builder)
     {
         builder.ToTable("Secrets");
         builder.HasKey(x => x.Id);

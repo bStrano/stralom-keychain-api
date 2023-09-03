@@ -1,4 +1,6 @@
 using Keychain.Application.Vault.Commands.Register;
+using Keychain.Application.Vault.Queries.Detail;
+using Keychain.Application.Vault.Queries.FindAllBaseInfo;
 using Keychain.Contracts.DTOs.Vault;
 using MapsterMapper;
 using MediatR;
@@ -22,7 +24,7 @@ public class VaultController: ApiController
     [HttpPost("secrets")]
     public async Task<IActionResult> RegisterSecret(RegisterSecretDto registerTemporarySecretDto)
     {
-        var userId = GetUserId(); // Gets the user's name
+        var userId = GetUserId();
 
         var command = new RegisterCommand(
             registerTemporarySecretDto.UserName,
@@ -37,4 +39,32 @@ public class VaultController: ApiController
             errors => Problem(errors));
     }
 
+    [HttpGet("secrets")]
+    public async Task<IActionResult> FindAllSecrets()
+    {
+        var userId = GetUserId();
+
+        var query = new FindAllBaseInfoQuery(
+            userId
+        );
+        var commandResponse = await _mediator.Send(query);
+        return commandResponse.Match(
+            responseResult => Ok(responseResult),
+            errors => Problem(errors));
+    }
+
+    [HttpGet("secrets/detail/{id:guid}")]
+    public async Task<IActionResult> Detail(Guid id)
+    {
+        var userId = GetUserId();
+
+        var query = new DetailQuery(
+            id,
+            userId
+        );
+        var commandResponse = await _mediator.Send(query);
+        return commandResponse.Match(
+            responseResult => Ok(responseResult),
+            errors => Problem(errors));
+    }
 }

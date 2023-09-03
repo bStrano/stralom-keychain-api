@@ -1,5 +1,7 @@
+using Keychain.Domain.Common.DomainErrors;
 using Keychain.Domain.Common.Models;
 using Keychain.Domain.ShareableSecret;
+using Keychain.Domain.Vault;
 using Keychain.Infrastructure.Persistence.Interceptors;
 using Microsoft.EntityFrameworkCore;
 
@@ -15,6 +17,7 @@ public class KeychainDbContext : DbContext
     }
 
     public DbSet<ShareableSecret> ShareableSecrets { get; set; } = null!;
+    public DbSet<Secret> Secret { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,7 +25,6 @@ public class KeychainDbContext : DbContext
             .Ignore<List<IDomainEvent>>()
             .ApplyConfigurationsFromAssembly(typeof(KeychainDbContext).Assembly)
             .Entity<ShareableSecret>().HasQueryFilter(p => !p.BurnedAt.HasValue);
-
         base.OnModelCreating(modelBuilder);
     }
 

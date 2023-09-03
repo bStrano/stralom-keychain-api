@@ -32,7 +32,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<R
             command.UserName,
             encryptedPassword.EncryptedValue,
             encryptedPassword.Iv,
-            DateTime.Now,
+            DateTime.UtcNow,
             DateTime.UtcNow,
             null,
             command.UserId
