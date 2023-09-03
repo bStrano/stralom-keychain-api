@@ -22,9 +22,15 @@ public class VaultController: ApiController
     [HttpPost("secrets")]
     public async Task<IActionResult> RegisterSecret(RegisterSecretDto registerTemporarySecretDto)
     {
-        var userName = User.Identity; // Gets the user's name
+        var userId = GetUserId(); // Gets the user's name
 
-        var command = _mapper.Map<RegisterCommand>(registerTemporarySecretDto);
+        var command = new RegisterCommand(
+            registerTemporarySecretDto.UserName,
+            registerTemporarySecretDto.Password,
+            registerTemporarySecretDto.Title,
+            registerTemporarySecretDto.Subtitle,
+            userId
+            );
         var commandResponse = await _mediator.Send(command);
         return commandResponse.Match(
             responseResult => Ok(responseResult),

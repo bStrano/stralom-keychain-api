@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using ErrorOr;
 using Keychain_API.Common.Http;
 using Microsoft.AspNetCore.Authorization;
@@ -52,5 +53,18 @@ public class ApiController : ControllerBase
         }
 
         return ValidationProblem(modelStateDictionary);
+    }
+
+    protected int GetUserId()
+    {
+        var claimsIdentity = HttpContext.User.Identity as ClaimsIdentity;
+
+        if (claimsIdentity is null)
+        {
+            throw new Exception("Invalid claims identity.");
+        }
+        var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+        int.TryParse(userId, out int result);
+        return result;
     }
 }
