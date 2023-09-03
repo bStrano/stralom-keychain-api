@@ -6,10 +6,13 @@ EXPOSE 443
 ARG CONNECTION_STRING
 ARG KEY
 ARG IV
+ARG ACCESS_TOKEN_SECRET
+
 
 ENV DbSettings:CONNECTION_STRING=${CONNECTION_STRING}
 ENV EncryptionSettings:KEY=${KEY}
 ENV EncryptionSettings:IV=${IV}
+ENV JwtSettings:Secret=${ACCESS_TOKEN_SECRET}
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Keychain.API/Keychain.API.csproj", "Keychain.API/"]
