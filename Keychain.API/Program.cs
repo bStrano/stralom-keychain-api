@@ -20,7 +20,7 @@ if (builder.Environment.IsProduction())
         options.AddPolicy(name: myAllowSpecificOrigins,
             policy =>
             {
-                policy.WithOrigins("https://*.stralom.com")
+                policy.WithOrigins("https://keychain.stralom.com")
                     .AllowAnyHeader()
                     .AllowAnyMethod();
             });
